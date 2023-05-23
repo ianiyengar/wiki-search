@@ -4,7 +4,6 @@ function App() {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const [searchInfo, setSearchInfo] = useState({});
-  // const [randomResult, setRandomResult] = useState(null);
 
   const handleRandomSearch = async () => {
     const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&format=json&origin=*`;
@@ -59,27 +58,28 @@ function App() {
     <div className="App">
       <header>
         <h1>Wiki Searcher</h1>
-        <form className="search-box" onSubmit={handleSearch}>
-          <input
+        <form className="search-form" onSubmit={handleSearch}>
+          <input className="search-box"
             type="search"
-            placeholder="Search Wikipedia and press enter!"
+            placeholder="Search Wikipedia"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="handleRandomSearch" onClick={handleRandomSearch}>Random Search</button>
+          <button className="button" type="submit">Search</button>
         </form>
-        {(searchInfo.totalhits) ? <p> Search Results: {searchInfo.totalhits}
+        <button className="button" onClick={handleRandomSearch}>Random Search</button>
+        {(searchInfo.totalhits) ? <p className="search-results"> Search Results: {searchInfo.totalhits}
         </p> : ""}
       </header>
       {results.length > 0 ? (
         <div className="results">
-          {results.map((result, i) => {
+          {results.map((result) => {
             const url = `https://en.wikipedia.org/?curid=${result.pageid}`;
             return (
-              <div className="result" key={i}>
+              <div className="result" key={result.pageid}>
                 <h3>{result.title}</h3>
-                <div dangerouslySetInnerHTML={{ __html: result.snippet }} />
-                <a href={url} target="_blank" rel="norefferer noreferrer">
+                <div className="preview" dangerouslySetInnerHTML={{ __html: result.snippet }} />
+                <a className="button" href={url} target="_blank" rel="noopener noreferrer">
                   Read More
                 </a>
               </div>
@@ -87,8 +87,11 @@ function App() {
           })}
         </div>
       ) : (
-        <p>No results found.</p>
+        <>
+          {search !== "" ? (<p> No results found.</p>) : ""}
+        </>
       )}
+
     </div>
   );
 }
