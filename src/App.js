@@ -41,8 +41,6 @@ function App() {
 
     const response = await fetch(endpoint);
 
-    console.log(response);
-
     if (!response.ok) {
       throw Error(response.statusText);
     }
