@@ -88,6 +88,7 @@ function App() {
                 <h3>{result.title}</h3>
                 <div
                   className="preview"
+                  // if there was more time I would sanitize this html
                   dangerouslySetInnerHTML={{ __html: result.snippet }}
                 />
                 <a
