@@ -22,3 +22,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 You can search for Wiki entries. Typos will yield a "no results found" message. 
 Click "Random Search" for a random Wiki entry. Clicking "Read More" takes you to the Wikipedia page.
+
+<img width="1388" alt="Screenshot 2023-05-23 at 10 36 14 AM" src="https://github.com/ianiyengar/wiki-search/assets/83172663/90620f12-aee8-4848-b525-bf0b1b1f31b6">
