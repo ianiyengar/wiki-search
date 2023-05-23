@@ -51,7 +51,6 @@ function App() {
 
     setResults(json.query.search);
     setSearchInfo(json.query.searchinfo);
-
   };
 
   return (
@@ -59,17 +58,28 @@ function App() {
       <header>
         <h1>Wiki Searcher</h1>
         <form className="search-form" onSubmit={handleSearch}>
-          <input className="search-box"
+          <input
+            className="search-box"
             type="search"
             placeholder="Search Wikipedia"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="button" type="submit">Search</button>
+          <button className="button" type="submit">
+            Search
+          </button>
         </form>
-        <button className="button" onClick={handleRandomSearch}>Random Search</button>
-        {(searchInfo.totalhits) ? <p className="search-results"> Search Results: {searchInfo.totalhits}
-        </p> : ""}
+        <button className="button" onClick={handleRandomSearch}>
+          Random Search
+        </button>
+        {searchInfo.totalhits ? (
+          <p className="search-results">
+            {" "}
+            Search Results: {searchInfo.totalhits}
+          </p>
+        ) : (
+          ""
+        )}
       </header>
       {results.length > 0 ? (
         <div className="results">
@@ -78,8 +88,16 @@ function App() {
             return (
               <div className="result" key={result.pageid}>
                 <h3>{result.title}</h3>
-                <div className="preview" dangerouslySetInnerHTML={{ __html: result.snippet }} />
-                <a className="button" href={url} target="_blank" rel="noopener noreferrer">
+                <div
+                  className="preview"
+                  dangerouslySetInnerHTML={{ __html: result.snippet }}
+                />
+                <a
+                  className="button"
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Read More
                 </a>
               </div>
@@ -87,11 +105,8 @@ function App() {
           })}
         </div>
       ) : (
-        <>
-          {search !== "" ? (<p> No results found.</p>) : ""}
-        </>
+        <>{search !== "" ? <p> No results found.</p> : ""}</>
       )}
-
     </div>
   );
 }
