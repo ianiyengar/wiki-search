@@ -37,7 +37,7 @@ function App() {
     e.preventDefault();
     if (search === "") return;
 
-    const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=30&srsearch=${search}`;
+    const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=50&srsearch=${search}`;
 
     const response = await fetch(endpoint);
 
