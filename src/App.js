@@ -1,9 +1,12 @@
 import { useState } from "react";
+import axios from "axios";
 
 function App() {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const [searchInfo, setSearchInfo] = useState({});
+  const [bookmarks, setBookmarks] = useState([]);
+  const [showBookmarks, setShowBookmarks] = useState(false);
 
   const handleRandomSearch = async () => {
     const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&format=json&origin=*`;
@@ -31,6 +34,7 @@ function App() {
 
     setResults([randomSearchResult]);
     setSearchInfo({ totalhits: 1 });
+    setShowBookmarks(false);
   };
 
   const handleSearch = async (e) => {
@@ -49,6 +53,33 @@ function App() {
 
     setResults(json.query.search);
     setSearchInfo(json.query.searchinfo);
+    setShowBookmarks(false);
+  };
+
+  const handleSaveBookmark = async (result) => {
+    try {
+      const response = await axios.post("http://localhost:3000/bookmarks", {
+        pageid: result.pageid,
+        title: result.title,
+        url: `https://en.wikipedia.org/?curid=${result.pageid}`,
+      });
+
+      if (response.status === 201) {
+        alert("Bookmark saved!");
+      }
+    } catch (error) {
+      console.error("There was an error saving the bookmark!", error);
+    }
+  };
+
+  const fetchBookmarks = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/bookmarks");
+      setBookmarks(response.data);
+      setShowBookmarks(true);
+    } catch (error) {
+      console.error("There was an error fetching the bookmarks!", error);
+    }
   };
 
   return (
@@ -67,45 +98,77 @@ function App() {
             Search
           </button>
         </form>
-        <button className="button" onClick={handleRandomSearch}>
-          Random Search
-        </button>
+
+        <div className="button-row">
+          <button className="button" onClick={handleRandomSearch}>
+            Random Search
+          </button>
+          <button className="button" onClick={fetchBookmarks}>
+            View Bookmarks
+          </button>
+        </div>
+
         {searchInfo.totalhits ? (
           <p className="search-results">
-            {" "}
             Search Results: {searchInfo.totalhits}
           </p>
         ) : (
           ""
         )}
       </header>
-      {results.length > 0 ? (
+
+      {!showBookmarks && results.length > 0 ? (
         <div className="results">
-          {results.map((result) => {
+          {results.map((result, index) => {
             const url = `https://en.wikipedia.org/?curid=${result.pageid}`;
             return (
-              <div className="result" key={result.pageid}>
+              <div className="result" key={`${result.pageid}-${index}`}>
                 <h3>{result.title}</h3>
                 <div
                   className="preview"
-                  // if there was more time I would sanitize this html
                   dangerouslySetInnerHTML={{ __html: result.snippet }}
                 />
-                <a
-                  className="button"
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Read More
-                </a>
+                <div className="result-buttons">
+                  <a
+                    className="button read-more-button"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Read More
+                  </a>
+                  <button
+                    className="button save-bookmark-button"
+                    onClick={() => handleSaveBookmark(result)}
+                  >
+                    Save Bookmark
+                  </button>
+                </div>
               </div>
             );
           })}
         </div>
-      ) : (
-        <>{search !== "" ? <p> No results found.</p> : ""}</>
-      )}
+      ) : null}
+
+      {/* Show bookmarks when showBookmarks is true */}
+      {showBookmarks && bookmarks.length > 0 ? (
+        <div className="bookmarks">
+          <h2>Saved Bookmarks</h2>
+          {bookmarks.map((bookmark, index) => (
+            <div className="result" key={`${bookmark.pageid}-${index}`}>
+              <h3>{bookmark.title}</h3>
+              <a
+                className="button"
+                href={bookmark.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Read More
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

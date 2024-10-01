@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
   font-family: "Roboto", sans-serif;
 }
 
@@ -15,7 +14,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   min-height: 100vh;
 }
 
@@ -31,6 +29,14 @@ h1 {
   text-transform: uppercase;
   text-align: center;
   margin-bottom: 16px;
+}
+
+h2 {
+  color: rgb(19, 19, 23);
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 16px;
+  padding-top: 16px;
 }
 
 .search-box {
@@ -60,19 +66,34 @@ h1 {
   margin: 10px;
 }
 
+/* General button styles */
 .button {
   display: inline-block;
-  padding: 8px 10px;
   background-color: rgb(48, 77, 207);
   color: #fff;
   text-decoration: none;
   border-radius: 12px;
   transition: 0.4s;
   border: rgb(19, 19, 23) 2px solid;
+  text-align: center;
+  padding: 8px 14px;
+  /* Adjust padding for standard button size */
+  margin-right: 10px;
+  /* Adds space between buttons */
 }
 
+/* Adjust hover state */
 .button:hover {
   background-color: rgb(48, 77, 207, 0.8);
+}
+
+/* Adding margin-bottom to add spacing between view bookmarks and random search */
+.button-row {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Ensure vertical space between buttons */
 }
 
 .preview {
@@ -96,4 +117,11 @@ h1 {
   color: rgb(19, 19, 23);
   font-size: 28px;
   margin-bottom: 16px;
+}
+
+/* Flexbox container to align buttons properly */
+.result-buttons {
+  display: flex;
+  gap: 10px;
+  /* Adds spacing between "Read More" and "Save Bookmark" */
 }
