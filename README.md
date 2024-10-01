@@ -18,7 +18,9 @@ Clone or download this repository. In the project directory, run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser. 
+
+NOTE: To utilize this with the newly built Rails backend, start the rails server first, then run 'npm start' and agree to launch the server on [http://localhost:3001](http://localhost:3001)
 
 You can search for Wiki entries. Typos will yield a "no results found" message. 
 Click "Random Search" for a random Wiki entry. Clicking "Read More" takes you to the Wikipedia page.
